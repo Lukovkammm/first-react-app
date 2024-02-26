@@ -1,35 +1,67 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Component } from 'react';
+import './App.css';
+import { Header } from './components/header/Header';
+import { Main } from './components/main/Main';
+import { CardData } from './common/card/Card';
+import { SearchBy } from './interface/common';
+import { getMainData } from './api/data';
+import { ErrorBoundary } from './common/error/Error';
 
-function App() {
-  const [count, setCount] = useState(0)
+export class App extends Component {
+  state = {
+    cards: [] as CardData[],
+    inputData: localStorage.getItem('searchData') ?? '',
+    searchBy: (localStorage.getItem('searchBy') as SearchBy) ?? SearchBy.Name,
+  };
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  constructor(props: object | Readonly<object>) {
+    super(props);
+    this.setInputValue = this.setInputValue.bind(this);
+    this.setRadioValue = this.setRadioValue.bind(this);
+    this.handleBtnClick = this.handleBtnClick.bind(this);
+  }
+
+  async componentDidMount() {
+    this.setState({
+      cards: await getMainData(this.state.searchBy, this.state.inputData),
+    });
+  }
+
+  setInputValue(value: string): void {
+    this.setState({
+      inputData: value,
+    });
+  }
+
+  setRadioValue(value: SearchBy): void {
+    this.setState({
+      searchBy: value,
+    });
+  }
+
+  async handleBtnClick() {
+    localStorage.setItem('searchData', this.state.inputData);
+    localStorage.setItem('searchBy', this.state.searchBy);
+
+    this.setState({
+      cards: await getMainData(this.state.searchBy, this.state.inputData),
+    });
+  }
+
+  render() {
+    return (
+      <ErrorBoundary>
+        <Header
+          inputData={this.state.inputData}
+          searchBy={this.state.searchBy}
+          setInputValue={this.setInputValue}
+          setRadioValue={this.setRadioValue}
+          handleBtnClick={this.handleBtnClick}
+        />
+        <Main cards={this.state.cards} />
+      </ErrorBoundary>
+    );
+  }
 }
 
-export default App
+export default App;
