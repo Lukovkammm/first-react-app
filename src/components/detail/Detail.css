@@ -1,0 +1,47 @@
+#detail {
+  position: relative;
+  flex: 1;
+  padding: 2rem 4rem;
+  width: 100%;
+}
+
+#contact {
+  display: flex;
+  flex-direction: column;
+  max-width: 40rem;
+}
+
+#contact_info {
+  display: flex;
+}
+
+#contact_info h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 15px;
+  line-height: 1.2;
+}
+
+#contact_info p {
+  margin: 0;
+}
+
+#contact_info span {
+  font-weight: 600;
+}
+
+#contact img {
+  width: 12rem;
+  height: 12rem;
+  background: #c8c8c8;
+  margin-right: 2rem;
+  border-radius: 1.5rem;
+  object-fit: cover;
+}
+
+.btns {
+  display: flex;
+  align-items: center;
+  column-gap: 15px;
+  margin: 10px 0;
+}

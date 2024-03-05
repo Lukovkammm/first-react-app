@@ -1,67 +1,32 @@
-import { Component } from 'react';
 import './App.css';
-import { Header } from './components/header/Header';
-import { Main } from './components/main/Main';
-import { CardData } from './common/card/Card';
-import { SearchBy } from './interface/common';
-import { getMainData } from './api/data';
-import { ErrorBoundary } from './common/error/Error';
+import {
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+} from 'react-router-dom';
+import People from './pages/People';
+import Detail from './components/detail/Detail';
+import NotFound from './pages/NotFound';
+import ErrorBoundary from './components/error/Error';
 
-export class App extends Component {
-  state = {
-    cards: [] as CardData[],
-    inputData: localStorage.getItem('searchData') ?? '',
-    searchBy: (localStorage.getItem('searchBy') as SearchBy) ?? SearchBy.Name,
-  };
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route>
+      <Route path="/" element={<People />}>
+        <Route path=":peopleId" element={<Detail />} />
+      </Route>
+      <Route path="*" element={<NotFound />} />
+    </Route>
+  )
+);
 
-  constructor(props: object | Readonly<object>) {
-    super(props);
-    this.setInputValue = this.setInputValue.bind(this);
-    this.setRadioValue = this.setRadioValue.bind(this);
-    this.handleBtnClick = this.handleBtnClick.bind(this);
-  }
-
-  async componentDidMount() {
-    this.setState({
-      cards: await getMainData(this.state.searchBy, this.state.inputData),
-    });
-  }
-
-  setInputValue(value: string): void {
-    this.setState({
-      inputData: value,
-    });
-  }
-
-  setRadioValue(value: SearchBy): void {
-    this.setState({
-      searchBy: value,
-    });
-  }
-
-  async handleBtnClick() {
-    localStorage.setItem('searchData', this.state.inputData);
-    localStorage.setItem('searchBy', this.state.searchBy);
-
-    this.setState({
-      cards: await getMainData(this.state.searchBy, this.state.inputData),
-    });
-  }
-
-  render() {
-    return (
-      <ErrorBoundary>
-        <Header
-          inputData={this.state.inputData}
-          searchBy={this.state.searchBy}
-          setInputValue={this.setInputValue}
-          setRadioValue={this.setRadioValue}
-          handleBtnClick={this.handleBtnClick}
-        />
-        <Main cards={this.state.cards} />
-      </ErrorBoundary>
-    );
-  }
+function App() {
+  return (
+    <ErrorBoundary>
+      <RouterProvider router={router} />
+    </ErrorBoundary>
+  );
 }
 
 export default App;

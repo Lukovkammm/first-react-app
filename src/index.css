@@ -1,34 +1,60 @@
-:root {
-  --font-color: #05131d;
-  --white-color: #ffffff;
-  --red-color: #c91a09;
-  --blue-color: #0055bf;
-  --yellow-color: #f2cd37;
-  --green-color: #00a550;
-
-  --primary-font: 'Anton', sans-serif;
-  --secondary-font: 'Roboto Condensed', sans-serif;
-  --accent-font: 'Bangers', cursive;
-  --special-font: 'Press Start 2P', cursive;
-}
-
-* {
+html {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
+#root {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
 }
 
-/* @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}  */
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  line-height: 1.5;
+  color: #121212;
+}
+
+textarea,
+input,
+button {
+  font-size: 1rem;
+  font-family: inherit;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  box-shadow:
+    0 0px 1px hsla(0, 0%, 0%, 0.2),
+    0 1px 2px hsla(0, 0%, 0%, 0.2);
+  background-color: white;
+  line-height: 1.5;
+  margin: 0;
+  outline: none;
+}
+
+textarea:hover,
+input:hover {
+  box-shadow:
+    0 0px 1px hsla(0, 0%, 0%, 0.6),
+    0 1px 2px hsla(0, 0%, 0%, 0.2);
+}

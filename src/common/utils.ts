@@ -1,10 +1,6 @@
-import { SearchBy } from '../interface/common';
+export const getSearchData = (): string | undefined => {
+  const formData = localStorage.getItem('form');
+  if (!formData) return;
 
-export const getParamName = (searchBy: SearchBy): string => {
-  switch (searchBy) {
-    case SearchBy.Name:
-      return 'beer_name';
-    case SearchBy.Food:
-      return 'food';
-  }
+  return JSON.parse(formData).search;
 };
