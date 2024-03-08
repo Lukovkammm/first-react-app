@@ -1,39 +1,39 @@
 import { useSearchParams } from 'react-router-dom';
 import './Pagination.css';
+import { useContext } from 'react';
+import { ProductContext } from '../../context/ProductContext';
 
 interface PaginationProps {
-  count: number | undefined;
-  handlePageChange: (page: number) => void;
+  handlePageChange: (page: string) => void;
 }
 
-function Pagination({ count = 0, handlePageChange }: PaginationProps) {
+function Pagination({ handlePageChange }: PaginationProps) {
   const [searchParams, setSearchParams] = useSearchParams({ page: '1' });
+  const { data } = useContext(ProductContext);
 
-  const pageCount = Math.ceil(count / 10);
-  const activePage = Number(searchParams.get('page'));
+  const activePage = searchParams.get('page');
 
-  const handleClick = (value: number) => {
-    setSearchParams({ page: value.toString() });
+  const handleClick = (value: string) => {
+    setSearchParams({ page: value });
     handlePageChange(value);
   };
 
   return (
     <ul id="pagination">
-      {pageCount
-        ? Array.from({ length: pageCount }, (_, index) => index + 1).map(
-            (item) => {
-              return (
-                <li
-                  key={item}
-                  className={item === activePage ? 'active' : undefined}
-                  onClick={() => handleClick(item)}
-                >
-                  {item}
-                </li>
-              );
-            }
-          )
-        : undefined}
+      {Array.from(
+        { length: data?.total_pages ?? 0 },
+        (_, index) => `${index + 1}`
+      ).map((item) => {
+        return (
+          <li
+            key={item}
+            className={item === activePage ? 'active' : undefined}
+            onClick={() => handleClick(item)}
+          >
+            {item}
+          </li>
+        );
+      })}
     </ul>
   );
 }

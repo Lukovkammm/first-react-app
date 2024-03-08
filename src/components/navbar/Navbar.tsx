@@ -1,18 +1,17 @@
-import { NavLink, useLocation } from 'react-router-dom';
-import { SWPerson } from '../../api/data';
 import './Navbar.css';
 
-function Navbar({ data }: { data?: SWPerson[] }) {
-  const location = useLocation();
+import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { ProductContext } from '../../context/ProductContext';
 
+function Navbar() {
+  const { data } = useContext(ProductContext);
   return (
     <nav>
       <ul>
-        {data?.map((item) => (
-          <li key={item.name}>
-            <NavLink to={`${item.id ?? 'not-found'}${location.search}`}>
-              {item.name}
-            </NavLink>
+        {data?.data?.map((item) => (
+          <li key={item.id}>
+            <NavLink to={`${item.id}${location.search}`}>{item.name}</NavLink>
           </li>
         ))}
       </ul>

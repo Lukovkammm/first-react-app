@@ -5,16 +5,16 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from 'react-router-dom';
-import People from './pages/People';
-import Detail from './components/detail/Detail';
-import NotFound from './pages/NotFound';
 import ErrorBoundary from './components/error/Error';
+import NotFound from './pages/NotFound';
+import Products from './pages/Products';
+import Detail from './components/detail/Detail';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
-      <Route path="/" element={<People />}>
-        <Route path=":peopleId" element={<Detail />} />
+      <Route path="/" element={<Products />}>
+        <Route path=":productId" element={<Detail />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Route>

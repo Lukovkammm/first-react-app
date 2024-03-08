@@ -1,34 +1,45 @@
 import { ReactNode } from 'react';
-import { SWPerson } from '../../api/data';
 import './Sidebar.css';
-import SearchBar from '../search-bar/SearchBar';
-import Navbar from '../navbar/Navbar';
 import Loader from '../loader/Loader';
+import Navbar from '../navbar/Navbar';
 
 interface SidebarProps {
-  data?: SWPerson[];
-  handleBtnClick(): void;
-  children: ReactNode;
+  searchBar: ReactNode;
+  pagination: ReactNode;
   isLoading: boolean;
 }
 
 function Sidebar(props: SidebarProps) {
   return (
     <div id="sidebar">
-      <div className="container">
-        <SearchBar handleBtnClick={props.handleBtnClick} />
-      </div>
+      <div>{props.searchBar}</div>
       {props.isLoading ? (
         <Loader />
       ) : (
         <>
-          {' '}
-          <Navbar data={props.data} />
-          {props.children}{' '}
+          <Navbar />
+          {props.pagination}
         </>
       )}
     </div>
   );
+  // return (
+  //   <div id="sidebar">
+  //     <div className="container">
+  //       {/* <SearchBar /> */}
+  //       {props.children}
+  //     </div>
+  //     {props.isLoading ? (
+  //       <Loader />
+  //     ) : (
+  //       <>
+  //         {' '}
+  //         <Navbar />
+  //         {props.children}{' '}
+  //       </>
+  //     )}
+  //   </div>
+  // );
 }
 
 export default Sidebar;

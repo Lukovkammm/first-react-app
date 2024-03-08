@@ -1,14 +1,9 @@
-import { FormEvent, useState } from 'react';
-import Button from '../button/Button';
+import { FormEvent, useContext, useState } from 'react';
 import './SearchBar.css';
+import { ProductContext } from '../../context/ProductContext';
 
-export interface SearchBarProps {
-  handleBtnClick(): void;
-}
-function SearchBar(props: SearchBarProps) {
-  const cachedForm = localStorage.getItem('form');
-  const search = cachedForm ? JSON.parse(cachedForm).search : '';
-
+function SearchBar({ handleSearch }: { handleSearch: () => void }) {
+  const { search } = useContext(ProductContext);
   const [formData, setFormData] = useState({ search });
 
   const setValue = (name: string, value: string) => {
@@ -18,7 +13,7 @@ function SearchBar(props: SearchBarProps) {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     localStorage.setItem('form', JSON.stringify(formData));
-    props.handleBtnClick();
+    handleSearch();
   };
 
   return (
@@ -27,10 +22,11 @@ function SearchBar(props: SearchBarProps) {
         type="text"
         name="search"
         defaultValue={formData.search}
+        autoComplete="off"
         onChange={(e) => setValue(e.target.name, e.target.value)}
       />
 
-      <Button content="Search"></Button>
+      <button>Search</button>
     </form>
   );
 }
